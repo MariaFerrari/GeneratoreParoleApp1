@@ -67,5 +67,9 @@ namespace GeneratoreParoleApp1
         {
             bgw_singolo.RunWorkerAsync();
         }
+        private void SonoInutile()
+        {
+            Console.WriteLine("");
+        }
     }
 }
