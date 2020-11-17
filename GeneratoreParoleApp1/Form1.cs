@@ -16,6 +16,7 @@ namespace GeneratoreParoleApp1
     public partial class Form1 : Form
     {
         Random rnd = new Random();
+        string caratteri = "1234567890qwertyuiopasdfghjklzxcvbnm";
         public Form1()
         {
             InitializeComponent();
@@ -25,31 +26,28 @@ namespace GeneratoreParoleApp1
         {
             BackgroundWorker bgw = sender as BackgroundWorker;
             string[] parole = new string[1000];
-            string caratteri = "1234567890qwertyuiopasdfghjklzxcvbnm";
             Stopwatch cronometro = new Stopwatch();
-            bgw.ReportProgress(0, 0);
             StringBuilder sb;
+
+            bgw.ReportProgress(0, 0);
             cronometro.Start();
-            for(int i=0; i<1000; i++)
+            
+            for (int i = 1; i < 1000; i++) 
             {
                 sb = new StringBuilder();
-                for(int j=0; j<10; j++)
+                for (int j = 0; j < 10; j++) 
                 {
                     int y = rnd.Next(0, caratteri.Length);
                     sb.Append(caratteri[y]);
                 }
                 parole[i] = sb.ToString();
                 bgw.ReportProgress(i/10, (int)cronometro.Elapsed.TotalMilliseconds);
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
+            
             cronometro.Stop();
             bgw.ReportProgress(100, (int)cronometro.Elapsed.TotalMilliseconds);
-            /*StreamWriter sw = new StreamWriter("Passwords.txt");
-            using (sw)
-            {
-                foreach (string p in parole)
-                    sw.WriteLine(p);
-            }*/
+        
         }
 
         private void bgw_singolo_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -67,9 +65,66 @@ namespace GeneratoreParoleApp1
         {
             bgw_singolo.RunWorkerAsync();
         }
-        private void SonoInutile()
+
+        string[] parole_multipli = new string[1000];
+        private void bgw_multipli1_DoWork(object sender, DoWorkEventArgs e)
         {
-            Console.WriteLine("");
+            BackgroundWorker bgw = sender as BackgroundWorker;
+            Stopwatch cronometro = new Stopwatch();
+            StringBuilder sb;
+
+            //bgw.ReportProgress(0, 0);
+            cronometro.Start();
+            lock (parole_multipli)
+            {
+                for (int i = 1; i <= 333; i++)
+                {
+                    sb = new StringBuilder();
+                    for (int j = 0; j < 10; j++)
+                    {
+                        int y = rnd.Next(0, caratteri.Length);
+                        sb.Append(caratteri[y]);
+                    }
+                    parole_multipli[i] = sb.ToString();
+                    parametri par = new parametri((int)cronometro.Elapsed.TotalMilliseconds, (int)e.Argument);
+                    bgw.ReportProgress(i*100/333, par);
+                    Thread.Sleep(100);
+                }
+            }
+
+            cronometro.Stop();
+           
+        }
+
+        private void btn_start_tre_Click(object sender, EventArgs e)
+        {
+            bgw_multipli1.RunWorkerAsync(0);
+            bgw_multipli2.RunWorkerAsync(1);
+            bgw_multipli3.RunWorkerAsync(2);
+        }
+
+        private void bgw_multipli1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            parametri par = (parametri) e.UserState;
+            int tempo = par.tempo;
+            int start = par.start;
+            tb_tre.Text = tempo.ToString();
+            pgb_tre.Value = start * (pgb_tre.Width / 3) + e.ProgressPercentage;
+        }
+
+        private void bgw_multipli1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+        struct parametri
+        {
+            public int tempo { get; }
+            public int start { get; }
+            public parametri(int t,int s)
+            {
+                tempo = t; start = s;
+            }
+
         }
     }
 }

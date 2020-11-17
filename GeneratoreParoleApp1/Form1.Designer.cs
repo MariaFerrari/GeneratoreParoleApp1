@@ -38,6 +38,9 @@
             this.tb_singolo = new System.Windows.Forms.TextBox();
             this.tb_tre = new System.Windows.Forms.TextBox();
             this.bgw_singolo = new System.ComponentModel.BackgroundWorker();
+            this.bgw_multipli1 = new System.ComponentModel.BackgroundWorker();
+            this.bgw_multipli2 = new System.ComponentModel.BackgroundWorker();
+            this.bgw_multipli3 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // btn_start_singolo
@@ -58,6 +61,7 @@
             this.btn_start_tre.TabIndex = 1;
             this.btn_start_tre.Text = "Start";
             this.btn_start_tre.UseVisualStyleBackColor = true;
+            this.btn_start_tre.Click += new System.EventHandler(this.btn_start_tre_Click);
             // 
             // btn_gara
             // 
@@ -122,6 +126,30 @@
             this.bgw_singolo.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgw_singolo_ProgressChanged);
             this.bgw_singolo.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgw_singolo_RunWorkerCompleted);
             // 
+            // bgw_multipli1
+            // 
+            this.bgw_multipli1.WorkerReportsProgress = true;
+            this.bgw_multipli1.WorkerSupportsCancellation = true;
+            this.bgw_multipli1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgw_multipli1_DoWork);
+            this.bgw_multipli1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgw_multipli1_ProgressChanged);
+            this.bgw_multipli1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgw_multipli1_RunWorkerCompleted);
+            // 
+            // bgw_multipli2
+            // 
+            this.bgw_multipli2.WorkerReportsProgress = true;
+            this.bgw_multipli2.WorkerSupportsCancellation = true;
+            this.bgw_multipli2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgw_multipli1_DoWork);
+            this.bgw_multipli2.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgw_multipli1_ProgressChanged);
+            this.bgw_multipli2.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgw_multipli1_RunWorkerCompleted);
+            // 
+            // bgw_multipli3
+            // 
+            this.bgw_multipli3.WorkerReportsProgress = true;
+            this.bgw_multipli3.WorkerSupportsCancellation = true;
+            this.bgw_multipli3.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgw_multipli1_DoWork);
+            this.bgw_multipli3.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgw_multipli1_ProgressChanged);
+            this.bgw_multipli3.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgw_multipli1_RunWorkerCompleted);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -155,6 +183,9 @@
         private System.Windows.Forms.TextBox tb_singolo;
         private System.Windows.Forms.TextBox tb_tre;
         private System.ComponentModel.BackgroundWorker bgw_singolo;
+        private System.ComponentModel.BackgroundWorker bgw_multipli1;
+        private System.ComponentModel.BackgroundWorker bgw_multipli2;
+        private System.ComponentModel.BackgroundWorker bgw_multipli3;
     }
 }
 
