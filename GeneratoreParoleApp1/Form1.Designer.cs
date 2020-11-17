@@ -71,6 +71,7 @@
             this.btn_gara.TabIndex = 2;
             this.btn_gara.Text = "Gara";
             this.btn_gara.UseVisualStyleBackColor = true;
+            this.btn_gara.Click += new System.EventHandler(this.btn_gara_Click);
             // 
             // label1
             // 

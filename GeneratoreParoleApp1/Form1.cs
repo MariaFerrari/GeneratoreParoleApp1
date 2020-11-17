@@ -67,6 +67,7 @@ namespace GeneratoreParoleApp1
         }
 
         string[] parole_multipli = new string[1000];
+        double prg_perc = 0;
         private void bgw_multipli1_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker bgw = sender as BackgroundWorker;
@@ -85,46 +86,39 @@ namespace GeneratoreParoleApp1
                         int y = rnd.Next(0, caratteri.Length);
                         sb.Append(caratteri[y]);
                     }
-                    parole_multipli[i] = sb.ToString();
-                    parametri par = new parametri((int)cronometro.Elapsed.TotalMilliseconds, (int)e.Argument);
-                    bgw.ReportProgress(i*100/333, par);
-                    Thread.Sleep(100);
+                    bgw.ReportProgress(1/10, (int)cronometro.Elapsed.TotalMilliseconds);
+                    Thread.Sleep(5);
                 }
             }
-
+            bgw.ReportProgress(100, (int)cronometro.Elapsed.TotalMilliseconds);
             cronometro.Stop();
            
         }
+        private void bgw_multipli1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            int tempo = (int)e.UserState;
+            tb_tre.Text = tempo.ToString();
+            prg_perc += 0.1;
+            pgb_tre.Value =(int)prg_perc;
+        }
+
 
         private void btn_start_tre_Click(object sender, EventArgs e)
         {
-            bgw_multipli1.RunWorkerAsync(0);
-            bgw_multipli2.RunWorkerAsync(1);
-            bgw_multipli3.RunWorkerAsync(2);
-        }
-
-        private void bgw_multipli1_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            parametri par = (parametri) e.UserState;
-            int tempo = par.tempo;
-            int start = par.start;
-            tb_tre.Text = tempo.ToString();
-            pgb_tre.Value = start * (pgb_tre.Width / 3) + e.ProgressPercentage;
+            bgw_multipli1.RunWorkerAsync();
+            bgw_multipli2.RunWorkerAsync();
+            bgw_multipli3.RunWorkerAsync();
         }
 
         private void bgw_multipli1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
 
         }
-        struct parametri
-        {
-            public int tempo { get; }
-            public int start { get; }
-            public parametri(int t,int s)
-            {
-                tempo = t; start = s;
-            }
 
+        private void btn_gara_Click(object sender, EventArgs e)
+        {
+            btn_start_singolo_Click(sender, e);
+            btn_start_tre_Click(sender, e);
         }
     }
 }
